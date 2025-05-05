@@ -14,14 +14,14 @@ app.get('/', async (req,res) => {
         
     const { location } = req.query;
         if(!location) {
-            error(res,'location is required')
+            return error(res,'location is required')
         }
     const exact = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&appid=${process.env.TOKEN}`);
         //console.log(exact.data);
     const {lat , lon }= exact.data[0];
     if(!lat || !lon) {
         //return res.json(exact)
-        error(res,'error while getting lat, lon'+exact);
+        return error(res,'error while getting lat, lon'+exact);
     }
     const weather = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m`);
         //console.log(weather);
