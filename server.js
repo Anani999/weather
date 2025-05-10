@@ -2,15 +2,28 @@ const express = require('express');
 const axios = require('axios');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+
 const app = express();
+
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const bcrypt = require('bcrypt');
-const body_parser = require('body-parser');
+const { rateLimit } = require('express-rate-limit');
 
 app.use(express.json());
-app.use(body_parser.json());
-app.use(body_parser.urlencoded());
+
+
+//rate limiter 
+
+const limiter = rateLimit({
+	windowMs: 1 * 60 * 1000, // 15 minutes
+	limit: 5, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+	standardHeaders: 'draft-8', // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+	// store: ... , // Redis, Memcached, etc. See below.
+});
+
+app.use(limiter);
 
 // connect db
 mongoose.connect(process.env.MONGO_URI);
@@ -45,7 +58,9 @@ app.post('/register', async (req,res) => {
 
 app.post('/login', async (req,res) => {
     try{
+
         const { username , password } = req.body;
+
         if(!username || !password) {
             return res.status(400).send('empty required things !');
         }
