@@ -24,10 +24,20 @@
   3.MongoDB - Object type database, for storing and retrieving Data
 
 #Agenda/Goal of the project
-  there is nothing costum service this project provides here it uses to thirdparty api's and works as a bridge to fetch weather data direcly using city name etc., as part of my curiosity on and to improve my skill's in backend development this is just a learning project with main intension of learning , 
+
+  1.there is nothing costum service this project provides here it uses to thirdparty api's and works as a bridge to fetch weather data direcly using city name etc., as part of my curiosity on and to improve my skill's in backend development this is just a learning project with main intension of learning , 
   I have deployed this in render.com which is a cloud platform and it was not live you can test this service at https://weather-0g3y.onrender.com , 
 
 #Limitations/Drawbacks 
   1. It cannot accurately give weather information of areas which were not mojor cities, so because the openweathermap was provides coordinates for only major cities it fails when you give small cities and you may get an 500(internal error response)
   2. The weather info may not accurate each time, most of the time the weather info was close to google weather but sometimes the winds speed may have large difference with google weather as this project uses open-meteo which was an opensource api service for fetching weather info , it has this drawback
   3. loading/respond speed , as I am using free tier of the render cloud without an continues activity ,the api wont work and it takes long time (50s) for getting response without any previous activity 
+
+#Envinment variables
+  GEN_PASS=  //a pass that is used to create a new user, it's your choice
+  TOKEN= //access token from api.openweathermap.org to convert city names, pincodes into coordinames and getting other info
+  TOKEN_SECRET= // any secret you can give used by jwt to create/sign tokens for users
+  MONGO_URI= // localhost url or direct uri of the mongodb for database
+  SALT_ROUNDS= // sald rounds used by bcrypt for hashing passwords before saving 
+  TOKEN_EXPIRY= // expity time for tokes created by jwt
+  ENV= // enviroment has two values DEVELOPMENT/PRODUCTION used to optimize the development and productio and used to write custom logic for different scenarios
